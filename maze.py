@@ -64,10 +64,14 @@ class Maze:
         while True:
             possible_directions = []
 
-            self.is_cell_unvisited(possible_directions, row + 1, column)
-            self.is_cell_unvisited(possible_directions, row, column + 1)
-            self.is_cell_unvisited(possible_directions, row - 1, column)
-            self.is_cell_unvisited(possible_directions, row, column - 1)
+            if row > 0 and not self.__cells[row -1][column].visited: #top
+                possible_directions.append([row -1, column])               
+            if column < self.num_cols - 1 and not self.__cells[row][column +1].visited: #right 
+                possible_directions.append([row, column +1])
+            if row < self.num_rows - 1 and not self.__cells[row +1][column].visited: #bottom
+                possible_directions.append([row +1, column])
+            if column > 0 and not self.__cells[row][column -1].visited: #left
+                possible_directions.append([row, column -1])
 
             if len(possible_directions) == 0:
                 self.__draw_cell(row, column)
@@ -93,8 +97,3 @@ class Maze:
             self.__draw_cell(direction[0], direction[1])
             
             self.__break_walls_r(direction[0], direction[1])
-
-    def is_cell_unvisited(self, possible_directions, row, column):
-        if (0 <= row <= self.num_rows -1) and (0 <= column <= self.num_cols -1):
-            if self.__cells[row][column].visited == False:
-                possible_directions.append([row, column])
