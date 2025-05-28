@@ -103,3 +103,32 @@ class Maze:
         for row in self.__cells:
             for cell in row:
                 cell.visited = False
+    
+    def solve(self):
+        return self._solve_r(0, 0)
+    
+    def _solve_r(self, row, column):
+        self._animate()
+        self.__cells[row][column].visited = True
+        if row == self.num_rows -1 and column == self.num_cols -1:
+            return True
+        
+        possible_directions = []
+
+        if row > 0 and not self.__cells[row -1][column].visited and not self.__cells[row][column].has_top_wall: #top
+            possible_directions.append([row -1, column])               
+        if column < self.num_cols - 1 and not self.__cells[row][column +1].visited and not self.__cells[row][column].has_right_wall: #right 
+            possible_directions.append([row, column +1])
+        if row < self.num_rows - 1 and not self.__cells[row +1][column].visited and not self.__cells[row][column].has_bottom_wall: #bottom
+            possible_directions.append([row +1, column])
+        if column > 0 and not self.__cells[row][column -1].visited and not self.__cells[row][column].has_left_wall: #left
+            possible_directions.append([row, column -1])
+        
+        for direction in possible_directions:
+            self.__cells[row][column].draw_move(self.__cells[direction[0]][direction[1]])
+            if self._solve_r(direction[0], direction[1]):
+                return True
+            else:
+                self.__cells[row][column].draw_move(self.__cells[direction[0]][direction[1]], True)
+
+        return False

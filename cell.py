@@ -39,7 +39,7 @@ class Cell:
             self.__win.draw_line(Line(Point(x1, y2), Point(x2, y2)), "white")
     
     def draw_move(self, to_cell, undo = False):
-        colour = "gray" if undo else "red"
+        colour = "white" if undo else "green"
         start_x = (self.__x1 + self.__x2) / 2
         start_y = (self.__y1 + self.__y2) / 2
         end_x = (to_cell.__x1 + to_cell.__x2) / 2
